@@ -139,3 +139,6 @@ dist
 cypress/screenshots
 cypress/videos
 cypress/downloads
+
+# Personal temp files
+scratch/

@@ -1,0 +1,21 @@
+node_modules/
+dist/
+build/
+coverage/
+.nyc_output/
+
+# Cypress generated files
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+
+# Package files
+package-lock.json
+yarn.lock
+
+# Logs
+*.log
+
+# Generated files
+*.min.js
+*.min.css 
