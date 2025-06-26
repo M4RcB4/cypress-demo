@@ -1,5 +1,12 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+# Only run checks if there are commits to push
+branch="$(git rev-parse --abbrev-ref HEAD)"
+upstream="origin/$branch"
+if [ "$(git rev-list $upstream..HEAD)" = "" ]; then
+  echo "==Husky Status:========"
+  echo "No new commits to push. Skipping pre-push checks."
+  echo "==Git Status:=========="
+  exit 0
+fi
 
 echo "🚀 Running pre-push checks..."
 
