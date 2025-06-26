@@ -47,8 +47,39 @@ npm install
 "verify:install": "npm ci --dry-run",
 # verify:clean is the command to verify clean install works
 "verify:clean": "rm -rf node_modules package-lock.json && npm install",
+# prepare is the command to set up husky hooks
+"prepare": "husky",
+# pre-commit is the command to run lint-staged
+"pre-commit": "lint-staged",
 # test is the command to run the tests
 "test": "echo \"Error: no test specified\" && exit 1"
+```
+
+## Git Hooks
+
+This project uses Husky to run checks before commits and pushes:
+
+### Pre-commit Hook
+
+Runs automatically before each commit:
+
+- **lint-staged** - ESLint and Prettier on staged files
+- **TypeScript check** - Type validation
+- **Security audit** - Vulnerability scanning
+- **Package verification** - Lock file consistency
+
+### Pre-push Hook
+
+Runs automatically before each push:
+
+- **Full CI checks** - TypeScript, linting, formatting
+- **Cypress tests** - End-to-end test suite
+
+### Bypassing Hooks (if needed)
+
+```bash
+git commit --no-verify  # Skip pre-commit
+git push --no-verify    # Skip pre-push
 ```
 
 # Notes
