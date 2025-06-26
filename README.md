@@ -45,7 +45,17 @@ I went ahead and fetched the data from the API endpoint. It would be trivial to 
 
 ### Code quality
 
-I added linting and formaters to this and set everything up to work with cypress.
+I added linting and formaters to this and set everything up to work with cypress. GitHub Actions CI runs all quality checks and tests on every PR.
+
+### CI/CD
+
+GitHub Actions workflow runs on push/PR:
+- TypeScript type checking
+- ESLint code quality checks  
+- Prettier formatting validation
+- Full Cypress test suite
+
+All checks must pass before merging to main branch.
 
 ### Page Object Implementation
 

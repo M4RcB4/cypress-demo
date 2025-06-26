@@ -140,5 +140,8 @@ cypress/screenshots
 cypress/videos
 cypress/downloads
 
+# vscode launch.json
+.vscode/
+
 # Personal temp files
 scratch/
