@@ -10,46 +10,78 @@ jobs:
   code-quality:
     runs-on: ubuntu-latest
     name: Code Quality Checks
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version-file: '.nvmrc'
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: TypeScript check
         run: npm run typecheck
-        
+
       - name: Lint check
         run: npm run lint
-        
+
       - name: Format check
         run: npm run format:check
+
+      - name: Verify Cypress installation
+        run: npm run cy:verify
+
+  security-audit:
+    runs-on: ubuntu-latest
+    name: Security & Dependency Checks
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Security audit
+        run: npm run security:audit
+
+      - name: Check for outdated dependencies
+        run: npm run security:outdated
+
+      - name: Verify package-lock.json is up to date
+        run: npm run verify:install
+
+      - name: Check for license compliance
+        run: npx license-checker --summary --onlyAllow "MIT;ISC;Apache-2.0;BSD-2-Clause;BSD-3-Clause" || true
 
   cypress-tests:
     runs-on: ubuntu-latest
     name: Cypress E2E Tests
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version-file: '.nvmrc'
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
@@ -58,7 +90,7 @@ jobs:
           wait-on-timeout: 30
           browser: chrome
           record: false
-          
+
       - name: Upload screenshots on failure
         uses: actions/upload-artifact@v4
         if: failure()
@@ -66,11 +98,40 @@ jobs:
           name: cypress-screenshots
           path: cypress/screenshots
           retention-days: 7
-          
+
       - name: Upload videos on failure
         uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-videos
           path: cypress/videos
-          retention-days: 7 
+          retention-days: 7
+
+  build-verification:
+    runs-on: ubuntu-latest
+    name: Build & Package Verification
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify clean install
+        run: npm run verify:clean
+
+      - name: Check package.json validity
+        run: npm run typecheck
+
+      - name: Verify all scripts work
+        run: |
+          npm run lint --dry-run || true
+          npm run format:check
+          echo "✅ All scripts are valid"

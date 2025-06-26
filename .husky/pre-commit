@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run lint-staged on staged files
+echo "🔍 Running pre-commit checks..."
+npm run pre-commit
+
+# Run TypeScript check on the entire project
+echo "📝 TypeScript type checking..."
+npm run typecheck
+
+# Run security audit (quick check)
+echo "🔒 Security audit..."
+npm run security:audit
+
+# Verify package-lock.json is consistent
+echo "📦 Verifying package consistency..."
+npm run verify:install
+
+echo "✅ Pre-commit checks passed!"

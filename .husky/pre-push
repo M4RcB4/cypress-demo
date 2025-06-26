@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🚀 Running pre-push checks..."
+
+# Run the full CI suite locally
+echo "📋 Running full CI checks..."
+npm run check-all
+
+# Run Cypress tests (quick smoke test)
+echo "🧪 Running Cypress tests..."
+npm run cy:run
+
+echo "✅ Pre-push checks passed! Ready to push." 

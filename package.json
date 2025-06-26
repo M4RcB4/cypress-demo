@@ -6,6 +6,7 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run",
+    "cy:verify": "cypress verify",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --ext .js,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.ts,.tsx --fix",
@@ -13,13 +14,35 @@
     "format:check": "prettier --check .",
     "check-all": "npm run typecheck && npm run lint && npm run format:check",
     "fix-all": "npm run lint:fix && npm run format",
+    "security:audit": "npm audit --audit-level=moderate",
+    "security:outdated": "npm outdated",
+    "security:check": "npm audit --audit-level=moderate && npm outdated",
+    "verify:install": "npm ci --dry-run",
+    "verify:clean": "rm -rf node_modules package-lock.json && npm install",
+    "prepare": "husky",
+    "pre-commit": "lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=20.14.0",
+    "npm": ">=10.0.0"
+  },
+  "packageManager": "npm@10.8.2",
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
+    "@types/node": "^24.0.4",
     "@typescript-eslint/eslint-plugin": "^8.35.0",
     "@typescript-eslint/parser": "^8.35.0",
     "cypress": "^14.5.0",
@@ -27,6 +50,8 @@
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-cypress": "^5.1.0",
     "eslint-plugin-prettier": "^5.5.1",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "^3.6.1",
     "typescript": "^5.8.3"
   }

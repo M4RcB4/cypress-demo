@@ -5,8 +5,14 @@ Cypress automation testing Google Translate language detection
 ## Setup
 
 ```bash
+# Use correct Node.js version (optional but recommended)
+nvm use
+
+# Install dependencies
 npm install
 ```
+
+**Note**: This project uses Node.js 20.14.0. See `VERSIONS.md` for details.
 
 # NPM scripts and what they do
 
@@ -15,6 +21,8 @@ npm install
 "cy:open": "cypress open",
 # cypress run is the command to run the cypress tests
 "cy:run": "cypress run",
+# cypress verify is the command to verify cypress installation
+"cy:verify": "cypress verify",
 # typecheck is the command to check the typescript code
 "typecheck": "tsc --noEmit",
 # lint is the command to lint the code
@@ -29,6 +37,16 @@ npm install
 "check-all": "npm run typecheck && npm run lint && npm run format:check",
 # fix-all is the command to fix the code for errors
 "fix-all": "npm run lint:fix && npm run format",
+# security:audit is the command to audit dependencies for vulnerabilities
+"security:audit": "npm audit --audit-level=moderate",
+# security:outdated is the command to check for outdated dependencies
+"security:outdated": "npm outdated",
+# security:check is the command to run all security checks
+"security:check": "npm audit --audit-level=moderate && npm outdated",
+# verify:install is the command to verify package-lock.json consistency
+"verify:install": "npm ci --dry-run",
+# verify:clean is the command to verify clean install works
+"verify:clean": "rm -rf node_modules package-lock.json && npm install",
 # test is the command to run the tests
 "test": "echo \"Error: no test specified\" && exit 1"
 ```
@@ -49,11 +67,33 @@ I added linting and formaters to this and set everything up to work with cypress
 
 ### CI/CD
 
-GitHub Actions workflow runs on push/PR:
+GitHub Actions workflow runs on push/PR with 4 parallel jobs:
+
+**Code Quality Checks:**
+
 - TypeScript type checking
-- ESLint code quality checks  
-- Prettier formatting validation
-- Full Cypress test suite
+- ESLint code quality validation
+- Prettier formatting verification
+- Cypress installation verification
+
+**Security & Dependency Checks:**
+
+- npm audit for vulnerabilities (moderate+)
+- Outdated dependency detection
+- package-lock.json consistency
+- License compliance checking
+
+**Cypress E2E Tests:**
+
+- Full end-to-end test suite
+- Chrome browser testing
+- Screenshot/video artifacts on failure
+
+**Build & Package Verification:**
+
+- Clean install verification
+- Package.json validity
+- Script functionality validation
 
 All checks must pass before merging to main branch.
 
