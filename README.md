@@ -131,5 +131,3 @@ All checks must pass before merging to main branch.
 ### Page Object Implementation
 
 If I had more time I would more the selectors in the spec out to a seperate file and then import them into the spec. This would make the selectors more readable and maintainable. The page objects can also contain highly reused functions that help key the specs more DRY.
-
-###
