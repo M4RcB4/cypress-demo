@@ -107,6 +107,9 @@ jobs:
           path: cypress/videos
           retention-days: 7
 
+      - name: Fuzzy analysis of screenshots
+        run: node scripts/fuzzyCheck.js
+
   build-verification:
     runs-on: ubuntu-latest
     name: Build & Package Verification

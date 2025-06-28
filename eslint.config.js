@@ -12,9 +12,9 @@ module.exports = [
   // Prettier config (disables conflicting rules)
   prettierConfig,
 
-  // Configuration files (Node.js environment)
+  // Node.js environment for config and utility scripts
   {
-    files: ['*.config.js', '.eslintrc.js', '.prettierrc.js'],
+    files: ['*.config.js', '.eslintrc.js', '.prettierrc.js', 'scripts/**/*.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'script',
@@ -24,6 +24,7 @@ module.exports = [
         process: 'readonly',
         __dirname: 'readonly',
         __filename: 'readonly',
+        console: 'readonly',
       },
     },
     plugins: {
