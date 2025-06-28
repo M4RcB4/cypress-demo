@@ -1,15 +1,8 @@
 /// <reference types="cypress" />
 
-describe('Auto Detect Language:', () => {
-  // setup page objects
-  const pageObjects = {
-    title: '[title="Google Translate"]',
-    detectLanguage: '[id="i11"]',
-    detectedLang: '[jsname="V67aGc"]:nth(7)',
-    translatedLang: '[jsname="ksKsZd"]:nth(4)',
-    inputEle: '[aria-label="Source text"]',
-  };
+import { translatePage as pageObjects } from '../support/pageObjects/translatePage';
 
+describe('Auto Detect Language:', () => {
   before(() => {});
 
   beforeEach(() => {
